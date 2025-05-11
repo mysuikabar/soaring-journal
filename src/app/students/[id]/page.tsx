@@ -2,15 +2,16 @@ import { reports, students } from "@/data/mock-data";
 import Link from "next/link";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-export default function StudentReportsPage({ params }: Props) {
-  const student = students.find((s) => s.id === params.id);
+export default async function StudentReportsPage({ params }: Props) {
+  const { id } = await params;
+  const student = students.find((s) => s.id === id);
   const studentReports = reports
-    .filter((r) => r.studentId === params.id)
+    .filter((r) => r.studentId === id)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   if (!student) {
