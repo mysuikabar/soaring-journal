@@ -15,11 +15,7 @@ import { useState } from "react";
 type ReportFormProps = {
   students: Student[];
   instructors: Instructor[];
-  onSubmit: (
-    studentId: string,
-    content: string,
-    instructorName: string
-  ) => void;
+  onSubmit: (studentId: string, content: string, instructorId: string) => void;
 };
 
 export function ReportForm({
@@ -34,9 +30,7 @@ export function ReportForm({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!studentId || !content || !instructorId) return;
-    const instructor = instructors.find((i) => i.id === instructorId);
-    if (!instructor) return;
-    onSubmit(studentId, content, instructor.name);
+    onSubmit(studentId, content, instructorId);
     setContent("");
     setInstructorId("");
   };

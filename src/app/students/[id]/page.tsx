@@ -2,13 +2,13 @@ import { getReports, getStudents } from "@/lib/db";
 import Link from "next/link";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function StudentReportsPage({ params }: Props) {
-  const { id } = params;
+  const { id } = await params;
   const students = await getStudents();
   const student = students.find((s) => s.id === id);
   const reports = await getReports();
