@@ -18,6 +18,7 @@ export default function AdminPage() {
   const [newStudentName, setNewStudentName] = useState("");
   const [newInstructorName, setNewInstructorName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -25,6 +26,7 @@ export default function AdminPage() {
 
   async function loadData() {
     try {
+      setError(null);
       const [studentsData, instructorsData] = await Promise.all([
         getStudents(),
         getInstructors(),
@@ -33,6 +35,7 @@ export default function AdminPage() {
       setInstructors(instructorsData);
     } catch (error) {
       console.error("データの読み込みに失敗しました:", error);
+      setError("データの読み込みに失敗しました");
     } finally {
       setIsLoading(false);
     }
@@ -42,21 +45,29 @@ export default function AdminPage() {
     e.preventDefault();
     if (!newStudentName) return;
     try {
+      setError(null);
       await createStudent(newStudentName);
       setNewStudentName("");
       await loadData();
     } catch (error) {
       console.error("練習生の追加に失敗しました:", error);
+      setError("練習生の追加に失敗しました");
     }
   }
 
   async function handleDeleteStudent(id: string) {
     if (!confirm("この練習生を削除してもよろしいですか？")) return;
     try {
+      setError(null);
       await deleteStudent(id);
       await loadData();
     } catch (error) {
       console.error("練習生の削除に失敗しました:", error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("練習生の削除に失敗しました");
+      }
     }
   }
 
@@ -64,21 +75,29 @@ export default function AdminPage() {
     e.preventDefault();
     if (!newInstructorName) return;
     try {
+      setError(null);
       await createInstructor(newInstructorName);
       setNewInstructorName("");
       await loadData();
     } catch (error) {
       console.error("教官の追加に失敗しました:", error);
+      setError("教官の追加に失敗しました");
     }
   }
 
   async function handleDeleteInstructor(id: string) {
     if (!confirm("この教官を削除してもよろしいですか？")) return;
     try {
+      setError(null);
       await deleteInstructor(id);
       await loadData();
     } catch (error) {
       console.error("教官の削除に失敗しました:", error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("教官の削除に失敗しました");
+      }
     }
   }
 
@@ -94,6 +113,12 @@ export default function AdminPage() {
   return (
     <main className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-8">管理</h1>
+
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600">
+          {error}
+        </div>
+      )}
 
       <div className="grid gap-8 md:grid-cols-2">
         {/* 練習生管理 */}

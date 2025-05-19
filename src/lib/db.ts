@@ -66,7 +66,35 @@ export async function createStudent(name: string): Promise<void> {
   if (error) throw error;
 }
 
+export async function getStudentReports(studentId: string): Promise<Report[]> {
+  const { data, error } = await supabase
+    .from("reports")
+    .select("*")
+    .eq("student_id", studentId);
+
+  if (error) throw error;
+  return data;
+}
+
+export async function getInstructorReports(
+  instructorId: string
+): Promise<Report[]> {
+  const { data, error } = await supabase
+    .from("reports")
+    .select("*")
+    .eq("instructor_id", instructorId);
+
+  if (error) throw error;
+  return data;
+}
+
 export async function deleteStudent(id: string): Promise<void> {
+  const reports = await getStudentReports(id);
+  if (reports.length > 0) {
+    throw new Error(
+      `この練習生には${reports.length}件の日報が存在するため削除できません。`
+    );
+  }
   const { error } = await supabase.from("students").delete().eq("id", id);
   if (error) throw error;
 }
@@ -77,6 +105,12 @@ export async function createInstructor(name: string): Promise<void> {
 }
 
 export async function deleteInstructor(id: string): Promise<void> {
+  const reports = await getInstructorReports(id);
+  if (reports.length > 0) {
+    throw new Error(
+      `この教官には${reports.length}件の日報が存在するため削除できません。`
+    );
+  }
   const { error } = await supabase.from("instructors").delete().eq("id", id);
   if (error) throw error;
 }
