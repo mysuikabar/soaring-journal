@@ -10,5 +10,28 @@ alwaysApply: true
 - Next.js (App Router)
 - TailwindCSS
 - shadcs/ui
-
 - Supabase
+
+# ディレクトリ構造
+基本的なディレクトリ構造は以下のものにしたがってください。
+```
+src/
+├── app/
+│   ├── layout.tsx  # 日誌入力ページ
+│   ├── page.tsx  # 日誌入力ページ
+│   └── students/
+│       ├── [id]/
+│       │   └── page.tsx  # 練習生の日誌
+│       └── page.tsx  # 練習生一覧
+├── components/
+│   ├── layout/
+│   │   └── header.tsx  # ヘッダー
+│   ├── reports/
+│   │   └── report-form.tsx  # 日誌フォームコンポーネント
+│   └── ui/  # shadcn/ui コンポーネント
+├── data/
+│   └── mock-data.ts  # モック用ダミーデータ
+└── lib/
+    ├── types.ts  # 型定義
+    └── utils.ts  # 汎用モジュール
+```
