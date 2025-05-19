@@ -1,7 +1,9 @@
-import { students } from "@/data/mock-data";
+import { getStudents } from "@/lib/db";
 import Link from "next/link";
 
-export default function StudentsPage() {
+export default async function StudentsPage() {
+  const students = await getStudents();
+
   return (
     <main className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-8">練習生一覧</h1>
