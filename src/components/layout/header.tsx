@@ -10,6 +10,7 @@ export function Header() {
   const links = [
     { href: "/", label: "日報作成" },
     { href: "/students", label: "練習生一覧" },
+    { href: "/admin", label: "管理" },
   ];
 
   return (

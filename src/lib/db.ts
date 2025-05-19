@@ -60,3 +60,23 @@ export async function createReport(
 
   if (error) throw error;
 }
+
+export async function createStudent(name: string): Promise<void> {
+  const { error } = await supabase.from("students").insert({ name });
+  if (error) throw error;
+}
+
+export async function deleteStudent(id: string): Promise<void> {
+  const { error } = await supabase.from("students").delete().eq("id", id);
+  if (error) throw error;
+}
+
+export async function createInstructor(name: string): Promise<void> {
+  const { error } = await supabase.from("instructors").insert({ name });
+  if (error) throw error;
+}
+
+export async function deleteInstructor(id: string): Promise<void> {
+  const { error } = await supabase.from("instructors").delete().eq("id", id);
+  if (error) throw error;
+}
