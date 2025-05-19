@@ -37,9 +37,10 @@ export default async function StudentReportsPage({ params }: Props) {
         {studentReports.map((report) => (
           <div key={report.id} className="p-4 border rounded-lg">
             <p className="whitespace-pre-wrap">{report.content}</p>
-            <p className="text-sm text-gray-500 mt-2">
-              {report.createdAt.toLocaleDateString()}
-            </p>
+            <div className="text-sm text-gray-500 mt-2">
+              <p>教官: {report.instructorName}</p>
+              <p>{report.createdAt.toLocaleDateString()}</p>
+            </div>
           </div>
         ))}
         {studentReports.length === 0 && (
