@@ -35,7 +35,7 @@ export function ReportActions({
     content: string
   ) => {
     try {
-      await updateReport(report.id, content, instructorId);
+      await updateReport(report.id, studentId, instructorId, content);
       setIsEditDialogOpen(false);
       onUpdate();
     } catch (error) {

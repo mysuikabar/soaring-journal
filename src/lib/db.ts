@@ -117,14 +117,16 @@ export async function deleteInstructor(id: string): Promise<void> {
 
 export async function updateReport(
   id: string,
-  content: string,
-  instructorId: string
+  studentId: string,
+  instructorId: string,
+  content: string
 ): Promise<void> {
   const { error } = await supabase
     .from("reports")
     .update({
-      content,
+      student_id: studentId,
       instructor_id: instructorId,
+      content,
       created_at: new Date().toISOString(),
     })
     .eq("id", id);
