@@ -6,7 +6,6 @@ export default async function StudentsPage() {
 
   return (
     <main className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-8">練習生一覧</h1>
       <div className="grid gap-4">
         {students.map((student) => (
           <Link

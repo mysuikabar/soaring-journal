@@ -79,7 +79,7 @@ export default function StudentReportsPage({ params }: Props) {
           ← 練習生一覧に戻る
         </Link>
       </div>
-      <h1 className="text-2xl font-bold mb-8">{student.name}の練習日誌</h1>
+      <h1 className="text-2xl font-bold mb-8">{student.name}</h1>
       <div className="space-y-4">
         {studentReports.map((report) => (
           <div key={report.id} className="p-4 border rounded-lg">
@@ -99,7 +99,7 @@ export default function StudentReportsPage({ params }: Props) {
           </div>
         ))}
         {studentReports.length === 0 && (
-          <p className="text-gray-500">まだ日報がありません</p>
+          <p className="text-gray-500">日報がありません</p>
         )}
       </div>
     </main>

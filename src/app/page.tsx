@@ -43,7 +43,6 @@ export default function Home() {
   if (isLoading) {
     return (
       <main className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-8">グライダー練習日誌</h1>
         <p>読み込み中...</p>
       </main>
     );
@@ -51,7 +50,6 @@ export default function Home() {
 
   return (
     <main className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-8">グライダー練習日誌</h1>
       <div className="max-w-2xl">
         <ReportForm
           students={students}

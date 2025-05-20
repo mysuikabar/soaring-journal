@@ -112,8 +112,6 @@ export default function AdminPage() {
 
   return (
     <main className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-8">管理</h1>
-
       {error && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600">
           {error}
@@ -123,7 +121,7 @@ export default function AdminPage() {
       <div className="grid gap-8 md:grid-cols-2">
         {/* 練習生管理 */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">練習生管理</h2>
+          <h2 className="text-xl font-semibold">練習生</h2>
           <form onSubmit={handleCreateStudent} className="flex gap-2">
             <input
               type="text"
@@ -159,7 +157,7 @@ export default function AdminPage() {
 
         {/* 教官管理 */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">教官管理</h2>
+          <h2 className="text-xl font-semibold">教官</h2>
           <form onSubmit={handleCreateInstructor} className="flex gap-2">
             <input
               type="text"
