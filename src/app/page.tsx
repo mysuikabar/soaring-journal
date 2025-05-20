@@ -1,32 +1,24 @@
 "use client";
 
 import { ReportForm } from "@/components/reports/report-form";
-import {
-  createReport,
-  getInstructors,
-  getReports,
-  getStudents,
-} from "@/lib/db";
-import { Instructor, Report, Student } from "@/lib/types";
+import { createReport, getInstructors, getStudents } from "@/lib/db";
+import { Instructor, Student } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [students, setStudents] = useState<Student[]>([]);
   const [instructors, setInstructors] = useState<Instructor[]>([]);
-  const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [studentsData, instructorsData, reportsData] = await Promise.all([
+        const [studentsData, instructorsData] = await Promise.all([
           getStudents(),
           getInstructors(),
-          getReports(),
         ]);
         setStudents(studentsData);
         setInstructors(instructorsData);
-        setReports(reportsData);
       } catch (error) {
         console.error("データの読み込みに失敗しました:", error);
       } finally {
@@ -43,8 +35,6 @@ export default function Home() {
   ) => {
     try {
       await createReport(studentId, instructorId, content);
-      const updatedReports = await getReports();
-      setReports(updatedReports);
     } catch (error) {
       console.error("日報の作成に失敗しました:", error);
     }
