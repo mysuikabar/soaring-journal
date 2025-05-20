@@ -16,23 +16,35 @@ type ReportFormProps = {
   students: Student[];
   instructors: Instructor[];
   onSubmit: (studentId: string, content: string, instructorId: string) => void;
+  initialValues?: {
+    studentId: string;
+    content: string;
+    instructorId: string;
+  };
 };
 
 export function ReportForm({
   students,
   instructors,
   onSubmit,
+  initialValues,
 }: ReportFormProps) {
-  const [studentId, setStudentId] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [instructorId, setInstructorId] = useState<string>("");
+  const [studentId, setStudentId] = useState<string>(
+    initialValues?.studentId || ""
+  );
+  const [content, setContent] = useState<string>(initialValues?.content || "");
+  const [instructorId, setInstructorId] = useState<string>(
+    initialValues?.instructorId || ""
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!studentId || !content || !instructorId) return;
     onSubmit(studentId, content, instructorId);
-    setContent("");
-    setInstructorId("");
+    if (!initialValues) {
+      setContent("");
+      setInstructorId("");
+    }
   };
 
   return (

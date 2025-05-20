@@ -114,3 +114,25 @@ export async function deleteInstructor(id: string): Promise<void> {
   const { error } = await supabase.from("instructors").delete().eq("id", id);
   if (error) throw error;
 }
+
+export async function updateReport(
+  id: string,
+  content: string,
+  instructorId: string
+): Promise<void> {
+  const { error } = await supabase
+    .from("reports")
+    .update({
+      content,
+      instructor_id: instructorId,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id);
+
+  if (error) throw error;
+}
+
+export async function deleteReport(id: string): Promise<void> {
+  const { error } = await supabase.from("reports").delete().eq("id", id);
+  if (error) throw error;
+}
