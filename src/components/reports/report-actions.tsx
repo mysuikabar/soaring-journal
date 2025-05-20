@@ -31,8 +31,8 @@ export function ReportActions({
 
   const handleEdit = async (
     studentId: string,
-    content: string,
-    instructorId: string
+    instructorId: string,
+    content: string
   ) => {
     try {
       await updateReport(report.id, content, instructorId);

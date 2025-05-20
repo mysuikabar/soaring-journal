@@ -30,8 +30,8 @@ export default function Home() {
 
   const handleSubmit = async (
     studentId: string,
-    content: string,
-    instructorId: string
+    instructorId: string,
+    content: string
   ) => {
     try {
       await createReport(studentId, instructorId, content);

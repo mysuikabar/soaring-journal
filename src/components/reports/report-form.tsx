@@ -15,7 +15,7 @@ import { useState } from "react";
 type ReportFormProps = {
   students: Student[];
   instructors: Instructor[];
-  onSubmit: (studentId: string, content: string, instructorId: string) => void;
+  onSubmit: (studentId: string, instructorId: string, content: string) => void;
   initialValues?: {
     studentId: string;
     content: string;
@@ -40,7 +40,7 @@ export function ReportForm({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!studentId || !content || !instructorId) return;
-    onSubmit(studentId, content, instructorId);
+    onSubmit(studentId, instructorId, content);
     if (!initialValues) {
       setContent("");
       setInstructorId("");
