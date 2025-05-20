@@ -1,6 +1,6 @@
 "use client";
 
-import { createBrowserClient } from "@supabase/ssr";
+import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -17,39 +17,56 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
   useEffect(() => {
     // 現在のセッションを取得
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    const initializeAuth = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setUser(session?.user ?? null);
+      } catch (error) {
+        console.error("セッションの取得に失敗しました:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
 
     // 認証状態の変更を監視
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
     });
 
-    return () => subscription.unsubscribe();
-  }, [supabase]);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const signIn = async (password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: "admin@example.com", // 固定のメールアドレス
-      password,
-    });
-    if (error) throw error;
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: "admin@example.com",
+        password,
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("ログインに失敗しました:", error);
+      throw error;
+    }
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    } catch (error) {
+      console.error("ログアウトに失敗しました:", error);
+      throw error;
+    }
   };
 
   return (
